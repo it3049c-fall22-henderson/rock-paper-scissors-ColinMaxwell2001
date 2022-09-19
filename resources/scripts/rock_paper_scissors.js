@@ -16,15 +16,15 @@ class RockPaperScissors {
     const acceptedValues = [ `rock`, `paper`, `scissors` ];
 
     if (Math.floor(Math.random() *3) === 0) {
-      return acceptedValues[0];
+      return 'rock';
     }
     
     else if (Math.floor(Math.random() * 3) === 1) {
-      return acceptedValues[1];
+      return 'paper';
     }
 
     else if (Math.floor(Math.random() * 3) === 2) {
-      return acceptedValues[2];
+      return 'scissors'; //acceptedValues[2] was not working 
     }
   }
   /**
@@ -47,25 +47,36 @@ class RockPaperScissors {
     {
       return 'tie';
     }
-
-    else if (userSelection === 'rock' && cpuSelection === 'scissors')
+    //Rock
+    else if (userSelection === 'rock')
     {
-      return 'win';
+      if (cpuSelection === 'scissors') {
+        return 'win';
+      }
+      else{
+        return 'lose';
+      }
     }
-    else if (userSelection === 'paper' && cpuSelection === 'rock')
+    //Paper
+    else if(userSelection === 'paper')
     {
-      return 'win';
+      if (cpuSelection === 'rock') {
+        return 'win';
+      }
+      else {
+        return 'lose';
+      }
     }
-    else if (userSelection === 'scissors' && cpuSelection === 'paper')
+    //Scissors
+    else if (userSelection === 'scissors')
     {
-      return 'win';
+      if (cpuSelection === 'paper') {
+        return 'win';
+      }
+      else {
+        return 'lose';
+      }
     }
-   
-    else
-    {
-      return 'lose';
-    }
-
 
   }
 
@@ -75,19 +86,26 @@ class RockPaperScissors {
    */
   play(userSelection){
 
-    var cpuAnswer = this.generateCPUResponse();
-    var result = this.determineWinner(userSelection, cpuAnswer);
+    this.userSelection = userSelection;
+    this.cpuSelection = this.generateCPUResponse();
 
-    if (result === 'win')
+    const result = this.determineWinner(this.userSelection, this.cpuSelection);
+
+    if(result === 'tie') 
+    {
+      this.gameHistoryLog.push(this.username + " selected " + this.userSelection + ", CPU selected " + this.cpuSelection + ": " + this.username + " " + result);
+    }
+
+    else if (result === 'win')
     {
       this.score.user ++;    
-      this.gameHistoryLog.push(this.username + "selected " + userSelection + ", CPU selected " + cpuAnswer + ": " + this.username + result);
+      this.gameHistoryLog.push(this.username + " selected " + this.userSelection + ", CPU selected " + this.cpuSelection + " : " + this.username + " " + result);
 
     }
-    else
+    else if(result === 'lose')
     {
       this.score.cpu ++;
-      this.gameHistoryLog.push(this.username + "selected " + userSelection + ", CPU selected " + cpuAnswer + ": CPU " + result);
+      this.gameHistoryLog.push(this.username + " selected " + this.userSelection + ", CPU selected " + this.cpuSelection + " : " + this.username + " " + result);
     }
 
   }
